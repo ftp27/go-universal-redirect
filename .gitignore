@@ -1,0 +1,4 @@
+.env
+.vscode
+cmd/__debug*
+cmd/gifmo.db
