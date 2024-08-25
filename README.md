@@ -153,6 +153,7 @@ Customize the server by setting the following environment variables:
 - **`LINK_DEFAULT`** - Default redirect URL **(required)**
 - **`LINK_APPSTORE`** - App Store redirect URL __(optional)__
 - **`LINK_GOOGLEPLAY`** - Play Store redirect URL __(optional)__
+- **`PORT`** - Server port (default: 8080)
 
 For InfluxDB analytics, configure the following variables:
 

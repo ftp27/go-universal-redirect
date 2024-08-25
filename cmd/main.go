@@ -20,6 +20,7 @@ import (
 )
 
 var (
+	port          string
 	defaultLink   string
 	platformLinks map[string]string
 
@@ -74,6 +75,12 @@ func setuoLog() {
 }
 
 func setupConfig() {
+	serverPort, isExists := os.LookupEnv("PORT")
+	if !isExists {
+		port = ":8080"
+	} else {
+		port = ":" + serverPort
+	}
 	link, isExists := os.LookupEnv("LINK_DEFAULT")
 	if !isExists {
 		log.Fatal().Str("env", "LINK_DEFAULT").Msg("Not found")
@@ -87,11 +94,11 @@ func setupConfig() {
 }
 
 func startServer() {
-	log.Info().Str("addr", ":8080").Msg("Starting server")
+	log.Info().Str("addr", port).Msg("Starting server")
 	http.HandleFunc("/", linkHandler)
 	http.HandleFunc("/meta", metaHandler)
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(port, nil)
 }
 
 func linkHandler(w http.ResponseWriter, r *http.Request) {
