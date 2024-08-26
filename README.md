@@ -170,7 +170,7 @@ GROUP BY platform
 ```
 
 ```flux
-from(bucket: "links")
+from(bucket: "<bucket_name>")
   |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
   |> filter(fn: (r) => r["_measurement"] == "link")
   |> filter(fn: (r) => r["_field"] == "value")
