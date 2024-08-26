@@ -53,43 +53,16 @@ cd go-universal-redirect
 
 ### <a name="docker">🐳 Docker</a>
 
-#### Build and Run the Container
+#### Build the Container
 
 ```bash
 docker build -t universal-redirect .
 ```
 
-#### Configure Docker Compose
-
-```yaml
-version: '3.8'
-
-services:
-  app:
-    build: .
-    environment:
-      REDIS_URL: redis://redis:6379
-      LINK_DEFAULT: https://example.com
-      # Optional: Uncomment to use InfluxDB
-      # INFLUX_TOKEN: your_influx_token_here
-      # INFLUX_HOST: your_influx_host_here
-      # INFLUX_DATABASE: your_influx_database_here
-      # Optional: Uncomment for platform-specific links
-      # LINK_APPSTORE: https://apps.apple.com
-      # LINK_GOOGLEPLAY: https://play.google.com
-    ports:
-      - "80:8080"
-      - "443:8080"
-    depends_on:
-      - redis
-  redis:
-    image: redis
-```
-
 #### Run the Container
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### <a name="dokku">🌐 Dokku</a>
