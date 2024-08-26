@@ -149,6 +149,16 @@ WHERE time >= now() - INTERVAL '30 day' AND type = 'click'
 GROUP BY day
 ```
 
+```flux
+from(bucket: "<bucket_name>")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "link")
+  |> filter(fn: (r) => r["type"] == "click")
+  |> group(columns: [])
+  |> aggregateWindow(every: 1d, fn: sum, createEmpty: false)
+  |> yield(name: "sum")
+```
+
 - **Total Clicks by Platform:**
 ```sql
 SELECT 
@@ -157,4 +167,14 @@ SELECT
 FROM "link" 
 WHERE time >= now() - INTERVAL '30 day' AND type = 'click' 
 GROUP BY platform
+```
+
+```flux
+from(bucket: "links")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "link")
+  |> filter(fn: (r) => r["_field"] == "value")
+  |> group(columns: ["platform"])
+  |> aggregateWindow(every: 1d, fn: sum, createEmpty: false)
+  |> yield(name: "sum")
 ```
