@@ -20,6 +20,7 @@
     3. [🐳 Docker](#docker)
     4. [🌐 Dokku](#dokku)
 4. [⚙️ Configuration](#configuration)
+5. [📈 Analytics](#analytics)
 
 ## <a name="usage">🚀 Usage</a>
 
@@ -160,3 +161,27 @@ For InfluxDB analytics, configure the following variables:
 - **`INFLUX_TOKEN`** - InfluxDB token (optional)
 - **`INFLUX_HOST`** - InfluxDB host (optional)
 - **`INFLUX_DATABASE`** - InfluxDB database (optional)
+
+## <a name="analytics">📈 Analytics</a>
+
+Universal Redirect supports InfluxDB for analytics. It sends each click and install event to the `link` measurement, along with platform and type information (`click` or `install`). Here are some example queries:
+
+- **Total Clicks By Day:**
+```sql
+SELECT 
+  DATE_BIN(INTERVAL '1 day', time, '1970-01-01T00:00:00Z'::TIMESTAMP) AS day, 
+  SUM(value) as value 
+FROM "link" 
+WHERE time >= now() - INTERVAL '30 day' AND type = 'click' 
+GROUP BY day
+```
+
+- **Total Clicks by Platform:**
+```sql
+SELECT 
+  SUM("value") AS "total_value", 
+  platform 
+FROM "link" 
+WHERE time >= now() - INTERVAL '30 day' AND type = 'click' 
+GROUP BY platform
+```
