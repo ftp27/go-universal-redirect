@@ -103,13 +103,26 @@ dokku config:set universal-redirect LINK_APPSTORE=https://apps.apple.com LINK_GO
 #### Configure Ports
 
 ```bash
-dokku proxy:ports-add universal-redirect http:80:8080 https:443:8080
+dokku ports:add universal-redirect http:80:8080 https:443:8080
 ```
 
 #### Set Domain (Optional)
 
 ```bash
 dokku domains:set universal-redirect example.com
+```
+
+#### Set SSL (Optional)
+
+```bash
+dokku letsencrypt:enable universal-redirect
+```
+
+#### Add Certificates (Optional)
+
+```bash
+tar cvf certs.tar server.crt server.key
+dokku certs:add universal-redirect < certs.tar
 ```
 
 #### Deploy the App
